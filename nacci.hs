@@ -1,3 +1,4 @@
+{-# LANGUAGE ExistentialQuantification,Rank2Types #-}
 -- Playing with generalizations of 'nacci sequences
 
 
@@ -70,7 +71,7 @@ pibs = pownacci 2
  - which instantiate the Enum typeclass. This allows us to build 'nacci streams 
  - of more interesting types, such as the Church type below. -}
 
-data Church = Church ((Int -> Int) -> Int -> Int)
+data Church = Church (forall x. (x -> x) -> x -> x)
 zero = Church (\f x -> x)
 
 instance Enum Church where
