@@ -42,13 +42,14 @@ zipWithN f = map f . rotateLists
   where rotateLists xss | null $ head xss = []
                         | otherwise = map head xss : rotateLists (map tail xss)
 
--- and now for a function which takes nearly the same as the earlier definition 
--- of nacci, but this time returns a stream
+{- and now for a function which takes nearly the same as the earlier definition 
+ - of nacci, but this time returns a stream -}
 nacci :: Enum a => ([a] -> a) -> a -> Int -> [a]
 nacci f z m =
-  let base = z : succ z : if m == 2
-                          then []
-                          else drop 2 .take m $ nacci f z (pred m)
+  let base = case m of
+               1 -> [z]
+               2 -> [z, succ z]
+               _ -> drop 2 . take m . nacci f z $ pred m
   in (base ++) . zipWithN f . take m . iterate tail $ nacci f z m
 
 -- and some instances of nacci streams
