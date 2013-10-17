@@ -39,8 +39,8 @@ mqibs = 1 : 2 : 2 : 4 : zipWithN product
 
 zipWithN :: ([a] -> b) -> [[a]] -> [b]
 zipWithN f = map f . rotateLists
-  where rotateLists xss | null $ head xss = []
-                        | otherwise = map head xss : rotateLists (map tail xss)
+  where rotateLists ([]:_) = []
+        rotateLists xss = map head xss : rotateLists (map tail xss)
 
 {- and now for a function which takes nearly the same as the earlier definition 
  - of nacci, but this time returns a stream -}
